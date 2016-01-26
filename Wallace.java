@@ -2,7 +2,7 @@ package ai365;
 import robocode.*;
 
 import java.awt.Color;
-import static robocode.util.Utils.normalRelativeAngleDegrees;
+
 
 
 
@@ -13,10 +13,7 @@ import static robocode.util.Utils.normalRelativeAngleDegrees;
  */
 public class Wallace extends Robot
 {
-	private byte moveDirection;
-	static int corner = 0;
-	int gotHit = 0;
-
+	
 	/**
 	 * run: Wallace's default behavior
 	 */
@@ -43,34 +40,14 @@ public class Wallace extends Robot
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
 		
-		ahead(30);
-		
-	
-        
-		if(getX() > 100 && getY() > 400){
-		
-		ahead(00);
-		
-
-		
-			
-		}
-
-		
-			
-		
-	
-		
-	
-		}
+	}
 	}
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		// Replace the next line with any behavior you would like
-		fire(5);
+	
 		
 	}
 
@@ -79,17 +56,7 @@ public class Wallace extends Robot
 	 */
 	public void onHitByBullet(HitByBulletEvent e) {	
 		
-	//	turnRight(e.getBearing() + 90);	
-		moveDirection *= -1;
-		back(75);	
-		
-		if (e.getBearing() < 95 && e.getBearing() > 0 ){
-		turnRight(90);	
-		}
-	
-		//if (e.getBearing() > -95 && e.getBearing() < 0 ){
-		//ahead(200);
-		//}
+
      
 	 
 	}
@@ -97,36 +64,40 @@ public class Wallace extends Robot
 		// We don't want to stop when we're just turning...
 		//stopWhenSeeRobot = false;
 		// turn to face the wall to the "right" of our desired corner.
-		turnRight(normalRelativeAngleDegrees(corner - getHeading()));
-		// Ok, now we don't want to crash into any robot in our way...
-		//stopWhenSeeRobot = true;
-		// Move to that wall
-		ahead(5000);
-		// Turn to face the corner
-		turnLeft(90);
-		// Move to the corner
-		ahead(5000);
-		// Turn gun to starting point
-		turnGunLeft(135);
-		turnGunRight(45);
-		turnRadarLeft(0);
-		//turnRadarRight(45);
-	}
+		
+		System.out.println("1: " + getX());
+		System.out.println("2: " + getBattleFieldWidth());
+		if(getX() < (.5 * getBattleFieldWidth())){
+			if(getY() < (.5 * getBattleFieldHeight())){
+				//bottom left
+				
+				while(getHeading() != 0){
+				turnLeft(1);
+				
+				
+				}
+			}
+			else{
+				//top left
+			}
+		}else{
+			if(getY() < (.5 * getBattleFieldHeight())){
+				//bottom right
+			}
+			else{
+				//top right
+			}
+		}
+			
+	
+}
 	
 public void onHitRobot(HitRobotEvent e) {
-	
-//back(500);
+	//back(500);
 getEnergy();
 fire(2);	
 
-	//turnLeft(400);
-//goCorner();
-	//turnGunRight(45);
 
-	
-	
-	
-				
 }
 	
 	/**
