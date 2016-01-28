@@ -13,7 +13,8 @@ import static robocode.util.Utils.normalRelativeAngleDegrees;
 public class Wallace extends Robot
 {
 	private byte moveDirection;
-	
+	double halfWidth = .5 * getBattleFieldWidth();
+	double halfHeight = .5 * getBattleFieldHeight();
 	int gotHit = 0;
 
 	/**
@@ -27,7 +28,7 @@ public class Wallace extends Robot
 		setBulletColor(Color.red);
 		setScanColor(Color.red);
 		
- 	goCorner();
+ 		goCorner();
 		
 
 // Initialization of the robot should be put here
@@ -43,14 +44,34 @@ public class Wallace extends Robot
 			// Replace the next 4 lines with any behavior you would like
 		
 		ahead(30);
-		
-		if(gotHit > 4){
-			turnGunRight(360);
-			//turnRadarRight(360);
+	/*	int padding = 50;
+		//upper left
+		if (getX()< halfWidth && getY() > halfHeight){
+			if (getX() > padding && getY() < getBattleFieldHeight()-padding){
+				goCorner();
+			}
 		}
         
-	
-
+		//lower left
+		if (getX()< halfWidth && getY() < halfHeight){
+			if (getX() > padding && getY() > padding){
+				goCorner();
+			}
+		}
+		//upper right
+		if (getX()> halfWidth && getY() > halfHeight){
+			if (getX() < getBattleFieldWidth() - padding && getY() < getBattleFieldHeight()-padding){
+				goCorner();
+			}
+		}
+		
+		//lower right
+		if (getX()> halfWidth && getY() < halfHeight){
+			if (getX() < getBattleFieldWidth() - padding && getY() > padding){
+				goCorner();
+			}
+		}
+		*/
 		
 			
 		
@@ -72,7 +93,7 @@ public class Wallace extends Robot
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
-	public void onHitByBullet(HitByBulletEvent e) {	
+public void onHitByBullet(HitByBulletEvent e) {	
 		gotHit ++; 
 	//	turnRight(e.getBearing() + 90);	
 		moveDirection *= -1;
@@ -90,13 +111,12 @@ public class Wallace extends Robot
 		//}
      
 	 
-	}
+}
 	
 //moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
-		public void goCorner() {
+public void goCorner() {
 			
-		double halfWidth = .5 * getBattleFieldWidth();
-		double halfHeight = .5 * getBattleFieldHeight();
+		
 		
 		// We don't want to stop when we're just turning...
 		//stopWhenSeeRobot = false;
@@ -104,75 +124,75 @@ public class Wallace extends Robot
 		
 		
 		if (getX()< halfWidth && getY() > halfHeight){
-	turnRight(normalRelativeAngleDegrees(0 - getHeading()));
-		// Ok, now we don't want to crash into any robot in our way...
-		//stopWhenSeeRobot = true;
-		// Move to that wall
-		ahead(5000);
-		// Turn to face the corner
-		turnLeft(90);
-		// Move to the corner
-		ahead(5000);
-		// Turn gun to starting point
-		turnGunLeft(90);
-		
-		turnRadarLeft(0);
-		//turnRadarRight(45);
-	}
-		if (getX() < halfWidth && getY()<halfHeight){
-		turnRight(normalRelativeAngleDegrees(270 - getHeading()));
-		ahead(5000);
-		// Turn to face the corner
-		turnLeft(90);
-		
-		ahead(5000);
-		
-		
-		// Move to the corner
-		//ahead(5000);
-		// Turn gun to starting point
-		turnGunLeft(90);
-		
-		turnRadarLeft(0);
+			turnRight(normalRelativeAngleDegrees(0 - getHeading()));
+			// Ok, now we don't want to crash into any robot in our way...
+			//stopWhenSeeRobot = true;
+			// Move to that wall
+			ahead(5000);
+			// Turn to face the corner
+			turnLeft(90);
+			// Move to the corner
+			ahead(5000);
+			// Turn gun to starting point
+			turnGunLeft(90);
 			
-}
+			turnRadarLeft(0);
+			//turnRadarRight(45);
+		}
+		if (getX() < halfWidth && getY()<halfHeight){
+			turnRight(normalRelativeAngleDegrees(270 - getHeading()));
+			ahead(5000);
+			// Turn to face the corner
+			turnLeft(90);
+			
+			ahead(5000);
+			
+			
+			// Move to the corner
+			//ahead(5000);
+			// Turn gun to starting point
+			turnGunLeft(90);
+			
+			turnRadarLeft(0);
+			
+		}
 
 		if (getX() > halfWidth && getY()>halfHeight){
-		turnRight(normalRelativeAngleDegrees(90 - getHeading()));
-		ahead(5000);
-		// Turn to face the corner
-		turnLeft(90);
-		
-		ahead(5000);
-		
-		
-		// Move to the corner
-		//ahead(5000);
-		// Turn gun to starting point
-		turnGunLeft(90);
-		
-		turnRadarLeft(0);
+			turnRight(normalRelativeAngleDegrees(90 - getHeading()));
+			ahead(5000);
+			// Turn to face the corner
+			turnLeft(90);
 			
-}
+			ahead(5000);
+			
+			
+			// Move to the corner
+			//ahead(5000);
+			// Turn gun to starting point
+			turnGunLeft(90);
+			
+			turnRadarLeft(0);
+				
+		}
 
 		if (getX() > halfWidth && getY()<halfHeight){
-		turnRight(normalRelativeAngleDegrees(180 - getHeading()));
-		ahead(5000);
-		// Turn to face the corner
-		turnLeft(90);
-		
-		ahead(5000);
-		
-		
-		// Move to the corner
-		//ahead(5000);
-		// Turn gun to starting point
-		turnGunLeft(90);
-		
-		turnRadarLeft(0);
+			turnRight(normalRelativeAngleDegrees(180 - getHeading()));
+			ahead(5000);
+			// Turn to face the corner
+			turnLeft(90);
 			
-}
+			ahead(5000);
+			
+			
+			// Move to the corner
+			//ahead(5000);
+			// Turn gun to starting point
+			turnGunLeft(90);
+			
+			turnRadarLeft(0);
+			
 		}
+	}
 	
 public void onHitRobot(HitRobotEvent e) {
 	
