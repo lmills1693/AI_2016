@@ -1,4 +1,3 @@
-
 import robocode.*;
 
 import java.awt.Color;
@@ -28,8 +27,7 @@ public class Wallace extends Robot
 		setBulletColor(Color.red);
 		setScanColor(Color.red);
 		
-		goCorner();
-		
+ 	goCorner();
 		
 
 // Initialization of the robot should be put here
@@ -41,22 +39,17 @@ public class Wallace extends Robot
 
 		// Robot main loop
 		while(true) {
+	
 			// Replace the next 4 lines with any behavior you would like
 		
 		ahead(30);
 		
-		if(gotHit > 3){
+		if(gotHit > 4){
 			turnGunRight(360);
+			//turnRadarRight(360);
 		}
         
-		if(getX() > 100 && getY() > 400){
-		
-		ahead(00);
-		
-
-		
-			
-		}
+	
 
 		
 			
@@ -89,6 +82,7 @@ public class Wallace extends Robot
 		turnRight(90);	
 		}
 		
+		System.out.println(getX() + "  " + getY());
 
 		
 		//if (e.getBearing() > -95 && e.getBearing() < 0 ){
@@ -97,11 +91,20 @@ public class Wallace extends Robot
      
 	 
 	}
+	
+//moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
 		public void goCorner() {
+			
+		double halfWidth = .5 * getBattleFieldWidth();
+		double halfHeight = .5 * getBattleFieldHeight();
+		
 		// We don't want to stop when we're just turning...
 		//stopWhenSeeRobot = false;
 		// turn to face the wall to the "right" of our desired corner.
-		turnRight(normalRelativeAngleDegrees(0 - getHeading()));
+		
+		
+		if (getX()< halfWidth && getY() > halfHeight){
+	turnRight(normalRelativeAngleDegrees(0 - getHeading()));
 		// Ok, now we don't want to crash into any robot in our way...
 		//stopWhenSeeRobot = true;
 		// Move to that wall
@@ -116,6 +119,60 @@ public class Wallace extends Robot
 		turnRadarLeft(0);
 		//turnRadarRight(45);
 	}
+		if (getX() < halfWidth && getY()<halfHeight){
+		turnRight(normalRelativeAngleDegrees(270 - getHeading()));
+		ahead(5000);
+		// Turn to face the corner
+		turnLeft(90);
+		
+		ahead(5000);
+		
+		
+		// Move to the corner
+		//ahead(5000);
+		// Turn gun to starting point
+		turnGunLeft(90);
+		
+		turnRadarLeft(0);
+			
+}
+
+		if (getX() > halfWidth && getY()>halfHeight){
+		turnRight(normalRelativeAngleDegrees(90 - getHeading()));
+		ahead(5000);
+		// Turn to face the corner
+		turnLeft(90);
+		
+		ahead(5000);
+		
+		
+		// Move to the corner
+		//ahead(5000);
+		// Turn gun to starting point
+		turnGunLeft(90);
+		
+		turnRadarLeft(0);
+			
+}
+
+		if (getX() > halfWidth && getY()<halfHeight){
+		turnRight(normalRelativeAngleDegrees(180 - getHeading()));
+		ahead(5000);
+		// Turn to face the corner
+		turnLeft(90);
+		
+		ahead(5000);
+		
+		
+		// Move to the corner
+		//ahead(5000);
+		// Turn gun to starting point
+		turnGunLeft(90);
+		
+		turnRadarLeft(0);
+			
+}
+		}
 	
 public void onHitRobot(HitRobotEvent e) {
 	
@@ -132,10 +189,9 @@ fire(3);
 	
 				
 }
-	public void onBulletHit(BulletHitEvent e){
+	public void onBulletHit(HitByBulletEvent e){
 		
 	gotHit = 0;
-
 	
 	}
 	/**
