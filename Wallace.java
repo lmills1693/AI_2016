@@ -29,15 +29,19 @@ public class Wallace extends Robot
 		setBulletColor(Color.red);
 		setScanColor(Color.red);
 		
- 		goCorner();
 
+
+		// 360 scan to find walls heading 
+ 		//set high level variable to staore wlls initial heading 
+		goCorner(); // in the opposite heading 
+		
 		// Robot main loop
 		while(true) {
 	
 			
 			if(!inCorner())
 				goCorner();
-			scan();
+			scan(); // make a radar sweeping method to scan that 90* 
 		
 			
 	}}
@@ -108,7 +112,7 @@ public class Wallace extends Robot
 		
 		gotHit ++;
 		if(e.getHeading()% 90 > 5){
-			return;
+			return
 		}
 		double dodgeHeading  = e.getHeading() + 90;
 		dodgeHeading  = dodgeHeading % 360; 
