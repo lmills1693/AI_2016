@@ -15,13 +15,15 @@ public class Wallace extends Robot
 
 	public double halfWidth,halfHeight;
 	public int gotHit,hit,corner;
-
+	public boolean firstScan = false;
 	/**
 	 * run: Wallace's default behavior
 	 */
 	public void run() {
+		//get Height and width of battle field
 		halfWidth = .5 * getBattleFieldWidth();
  		halfHeight = .5 * getBattleFieldHeight();
+ 		
 	    // Set colors
 		setBodyColor(Color.black);
 		setGunColor(Color.black);
@@ -31,32 +33,39 @@ public class Wallace extends Robot
 		
 
 
-		// 360 scan to find walls heading 
+		// 360 scan to find walls bearing and move opposite direction(inside scanned robot)
+		turnRadarRight(360);
+ 	
  		//set high level variable to staore wlls initial heading 
 		goCorner(); // in the opposite heading 
 		
 		// Robot main loop
 		while(true) {
-	
-			
-			if(!inCorner())
+			if(!inCorner()){
 				goCorner();
+			}
 			scan(); // make a radar sweeping method to scan that 90* 
-		
-			
-	}}
+		}
+	}
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Replace the next line with any behavior you would like
-		
+		if(!firstScan){
+			double opponentBearing = e.getBearing();
+			System.out.println("opponent Bearing : " + opponentBearing);
+			firstScan = true;
+			turnLeft((opponentBearing + 90)% 360);//probably wrong
+			ahead(100);//move ahead until hitting a wall,then go to corner
+		}
+		//TODO: determine best value later
 		if(e.getDistance() < 80 && e.getEnergy() < 15){
 		return;
 		}
 		fire(5);
-		
+	
 	}
 
 	/**
@@ -105,11 +114,8 @@ public class Wallace extends Robot
 		//System.out.println("We are in a corner");
 		return true;
 	}
-
+	//TODO: check later
 	public void onHitByBullet(HitByBulletEvent e) {	
-		 
-		
-		
 		gotHit ++;
 		if(e.getHeading()% 90 > 5){
 			return
@@ -119,17 +125,8 @@ public class Wallace extends Robot
 		turnDodge(dodgeHeading);
 		System.out.println("heading of bullet = " + e.getHeading());
 		System.out.println("dodging" + dodgeHeading);
-		
-		
-		
-		
-		
-
-
-
-     
-	 
-}
+	}
+	
 	public void turnDodge( double heading) {
 		
 		if(heading - getHeading() < 5){
