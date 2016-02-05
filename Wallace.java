@@ -44,7 +44,11 @@ public class Wallace extends Robot
 			if(!inCorner()){
 				goCorner();
 			}
-			scan(); // make a radar sweeping method to scan that 90* 
+		scan(); // make a radar sweeping method to scan that 90* 
+		
+		
+		
+		
 		}
 	}
 
@@ -54,11 +58,14 @@ public class Wallace extends Robot
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Replace the next line with any behavior you would like
 		if(!firstScan){
-			double opponentBearing = e.getBearing();
-			System.out.println("opponent Bearing : " + opponentBearing);
+
+			int quad = (int) e.getHeading() /90;
+			System.out.println(quad);
+			double opponentHeading = quad * 90.0;
+			System.out.println("opponent Bearing : " + opponentHeading);
 			firstScan = true;
-			turnLeft((opponentBearing + 90)% 360);//probably wrong
-			ahead(100);//move ahead until hitting a wall,then go to corner
+			turn((opponentHeading + 180)% 360);//probably wrong
+			ahead(400);//move ahead until hitting a wall,then go to corner
 		}
 		//TODO: determine best value later
 		if(e.getDistance() < 80 && e.getEnergy() < 15){
@@ -111,14 +118,14 @@ public class Wallace extends Robot
 				return false;
 			}
 		}
-		//System.out.println("We are in a corner");
+		System.out.println("We are in a corner");
 		return true;
 	}
 	//TODO: check later
 	public void onHitByBullet(HitByBulletEvent e) {	
 		gotHit ++;
 		if(e.getHeading()% 90 > 5){
-			return
+			return;
 		}
 		double dodgeHeading  = e.getHeading() + 90;
 		dodgeHeading  = dodgeHeading % 360; 
@@ -138,7 +145,11 @@ public class Wallace extends Robot
 			back(75);
 			ahead(75);
 		}
-	/*	if (heading - getHeading() < 180 && heading - getHeading() > 0){
+	
+
+	}
+	public void turn (double heading){
+		if (heading - getHeading() < 180 && heading - getHeading() > 0){
 			System.out.println("right");
 			double turn =  heading - getHeading();
 			turnRight(turn);
@@ -148,9 +159,9 @@ public class Wallace extends Robot
 			double turn = (360 + getHeading()) - heading;
 			turn = turn % 360;
 			turnLeft(turn);
-		}*/
-
+		}
 	}
+	
 	public void goCorner(){
 		
 		
