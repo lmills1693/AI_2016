@@ -60,18 +60,21 @@ public class Wallace extends Robot
 		if(!firstScan){
 
 			int quad = (int) e.getHeading() /90;
-			System.out.println(quad);
+			//System.out.println(quad);
 			double opponentHeading = quad * 90.0;
-			System.out.println("opponent Bearing : " + opponentHeading);
-			firstScan = true;
+			//System.out.println("opponent Bearing : " + opponentHeading);
+			
 			turn((opponentHeading + 180)% 360);//probably wrong
 			ahead(400);//move ahead until hitting a wall,then go to corner
 		}
 		//TODO: determine best value later
-		if(e.getDistance() < 80 && e.getEnergy() < 15){
+		if(e.getDistance() < 150 && e.getEnergy() < 20){
+		System.out.println("not firing");
 		return;
 		}
+		if(firstScan)
 		fire(5);
+		firstScan = true;
 	
 	}
 
@@ -86,7 +89,7 @@ public class Wallace extends Robot
 		
 		if (getX()< halfWidth && getY() > halfHeight){
 			if (getX() > padding && getY() < getBattleFieldHeight()-padding){
-				System.out.println("Top Left");
+				//System.out.println("Top Left");
 				return false;
 				
 			}
@@ -95,7 +98,7 @@ public class Wallace extends Robot
 		
 		if (getX()< halfWidth && getY() < halfHeight){
 			if (getX() > padding && getY() > padding){
-				System.out.println("Lower Left");
+				//System.out.println("Lower Left");
 				return false;
 				
 			}
@@ -103,9 +106,9 @@ public class Wallace extends Robot
 	
 		if (getX()> halfWidth && getY() > halfHeight){
 			if (getX() < getBattleFieldWidth() - padding && getY() < getBattleFieldHeight()-padding){
-				System.out.println("Top right " + getX() + " " + getY());
+				//System.out.println("Top right " + getX() + " " + getY());
 				if(getRadarHeading() != 90){
-				System.out.println();
+				//System.out.println();
 				}
 				return false;
 			}
@@ -114,11 +117,11 @@ public class Wallace extends Robot
 		
 		if (getX()>= halfWidth && getY() <= halfHeight){
 			if (getX() < getBattleFieldWidth() - padding && getY() > padding){
-				System.out.println("lower right");
+				//System.out.println("lower right");
 				return false;
 			}
 		}
-		System.out.println("We are in a corner");
+		//System.out.println("We are in a corner");
 		return true;
 	}
 	//TODO: check later
@@ -130,8 +133,8 @@ public class Wallace extends Robot
 		double dodgeHeading  = e.getHeading() + 90;
 		dodgeHeading  = dodgeHeading % 360; 
 		turnDodge(dodgeHeading);
-		System.out.println("heading of bullet = " + e.getHeading());
-		System.out.println("dodging" + dodgeHeading);
+		//System.out.println("heading of bullet = " + e.getHeading());
+		//System.out.println("dodging" + dodgeHeading);
 	}
 	
 	public void turnDodge( double heading) {
@@ -150,11 +153,11 @@ public class Wallace extends Robot
 	}
 	public void turn (double heading){
 		if (heading - getHeading() < 180 && heading - getHeading() > 0){
-			System.out.println("right");
+			//System.out.println("right");
 			double turn =  heading - getHeading();
 			turnRight(turn);
 		}else{
-						System.out.println("left");
+						//System.out.println("left");
 		
 			double turn = (360 + getHeading()) - heading;
 			turn = turn % 360;
@@ -167,11 +170,11 @@ public class Wallace extends Robot
 		
 
 	double gunH = 0;
-		System.out.println("going corner");
+		//System.out.println("going corner");
 		//Top left
 		if (getX()< halfWidth && getY() > halfHeight){
 			turnRight(normalRelativeAngleDegrees(0 - getHeading()));
-			//System.out.println("top left");
+			////System.out.println("top left");
 			gunH = 270;
 			corner = 1;
 			}
