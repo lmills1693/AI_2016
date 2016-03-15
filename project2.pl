@@ -1,17 +1,13 @@
-:- dynamic classroom/1.
-:- dynamic taughtby/1.
-:- dynamic classroom/1.
-:- dynamic teaches/1.
-:- dynamic member/1.
-:- dynamic b_setval/1.
-:- dynamic schedule/1.
+/*CIS 365-01 - AI Project 2 
+* Option 1: GVSU Registrar’s Office
+* Authors: Lauren Mills , Kyle Niewiada
+*/
 
+/*Rules*/
 teaches(X, LIST):-findall(A,(taughtby(LIST,X),classname(LIST,A)),LIST).
 teachesclass(X,Y):-classname(Z,X),taughtby(Z,Y).
-member(X,[X|_]).
-member(X,[_|R]):-member(X,R).
 
-
+/*Facts*/
 classname(330,'Systems Analysis and Design').
 classname(333,'DB Management and Implementation').
 classname(337,'Network Systems Management').
@@ -145,8 +141,6 @@ classday(691,'M').
 classday(460,'T').
 classday(460,'R').
 
-
-
 classroom(467,'MAK B1118').
 classroom(463,'MAK D2123').
 classroom(460,'MAK B1116').
@@ -236,36 +230,89 @@ studenttaking(457,'Pam').
 studenttaking(452,'Pam').
 
 print_solution :-
-write('What does Dr. J. Leidig teach?'), nl,
-findall(A,(taughtby(N,'Dr. J. Leidig'),classname(N,A)),Query1),
-write(Query1), nl,
-write('Does Dr. J. Leidig teach Database?'), nl,
+
+/*Question 1*/
+write('1.) What does Dr. J. Leidig teach?'), nl,
+findall(Classname1,(taughtby(Classnumber1,'Dr. J. Leidig'),classname(Classnumber1,Classname1)),Query1),
+tab(5),write(Query1), nl,nl,
+
+/*Question 2*/
+write('2.) Does Dr. J. Leidig teach Database?'), nl,
 (teachesclass('Database','Dr. J. Leidig') -> Query2 = true; Query2 = false),
-write(Query2),nl,
-write('What is Dr. J. Leidig’s schedule?'), nl,
+tab(5),write(Query2),nl,nl,
+
+/*Question 3*/
+/*A: Name of class
+ *B: Day of the week
+ *C: class start time
+ *N: class number
+ */
+write('3.) What is Dr. J. Leidig’s schedule?'), nl,
 findall((A,B,C,D),(taughtby(N,'Dr. J. Leidig'),classname(N,A),classday(N,B),classtimestart(N,C),classtimeend(N,D)),Query3),
-write(Query3), nl,
-write('Who is scheduled to teach what subject on TTH, 10am?'), nl,
+tab(5),write(Query3), nl,nl,
+
+/*Question 4*/
+/*X: Prof name
+ *N: class number
+ *Name: class name
+ */   
+write('4.) Who is scheduled to teach what subject on TTH, 10am?'), nl,
 setof((X,NAME),(taughtby(N,X),classday(N,'T'),classday(N,'R'),classtimestart(N,'10:00 am'),classname(N,NAME)),Query4),
-write(Query4), nl,
-write('When do Dr. J. Leidig and Dr. El-Said teach at the same time?'), nl,
+tab(5),write(Query4), nl,nl,
+
+/*Question 5*/
+/*A5: Day of class
+ *B5: Class start time
+ *M5: Class2 number
+ *N5: Class1 number
+ */
+write('5.) When do Dr. J. Leidig and Dr. El-Said teach at the same time?'), nl,
 findall((A5,B5),((taughtby(N5,'Dr. El-Said'),classday(N5,A5),classtimestart(N5,B5)),(taughtby(M5,'Dr. J. Leidig'),classday(M5,A5),classtimestart(M5,B5))),Query5),
-write(Query5), nl,
-write('Who teaches at the same time as Dr. J. Leidig?'), nl,
+tab(5),write(Query5), nl,nl,
+
+/*Question 6*/
+/*A6: Class1 number
+ *B6: Class2 number
+ *X6: Prof2
+ *Y6: Day of class
+ *Z6: Class start time
+ */
+write('6.) Who teaches at the same time as Dr. J. Leidig?'), nl,
 setof((X6),A6^B6^Y6^Z6^((taughtby(A6,'Dr. J. Leidig'),classday(A6,Y6),classtimestart(A6,Z6)),(taughtby(B6,X6),classday(B6,Y6),classtimestart(B6,Z6))),Q6),subtract(Q6,['Dr. J. Leidig'],Query6),
-write(Query6), nl,
-write('What courses do Jim and Pam have in common?'), nl,
+tab(5),write(Query6), nl,nl,
+
+/*Question 7*/
+/*S7:Student name
+ */
+write('7.) What courses do Jim and Pam have in common?'), nl,
 setof((S7),(studenttaking(S7,'Jim'),studenttaking(S7,'Pam')),Q7),
-write(Q7), nl,
-write('Who is taking CS courses?'), nl,
+tab(5),write(Q7), nl,nl,
+
+/*Question 8*/
+/*A8: Student name
+ *N8: Class number
+ */
+write('8.) Who is taking CS courses?'), nl,
 setof(A8,N8^(studenttaking(N8,A8),classtype(N8,'CS')),Query8),
-write(Query8), nl,
-write('What types of courses are Gaius Baltar taking?'), nl,
+tab(5),write(Query8), nl,nl,
+
+/*Question 9*/
+/*A9: Class type
+ *S9: Class number
+ */
+write('9.) What types of courses are Gaius Baltar taking?'), nl,
 setof((A9),S9^(studenttaking(S9,'Gaius Baltar'),classtype(S9,A9)),Q9),
-write(Q9), nl,
-write('Are there any scheduling conflicts of professors or locations?'), nl,
-write('Locations conflicts:'), nl,
-setof((Day_10, StartTime_10, Location_10),Course1_10^Course2_10^(taughtby(Course1_10, Prof1_10),taughtby(Course2_10, Prof2_10),classroom(Course1_10, Location_10),classroom(Course2_10, Location_10),classday(Course1_10,Day_10),classday(Course2_10,Day_10),classtimestart(Course1_10, StartTime_10),classtimestart(Course2_10, StartTime_10),Prof1_10 \= Prof2_10),Q10),write(Q10), nl,
-write('scheduling conflicts:'), nl,
-setof((Prof1_11, Day_11, StartTime_11),Course1_11^Course2_11^(taughtby(Course1_11, Prof1_11),taughtby(Course2_11, Prof1_11),classday(Course1_11,Day_11),classday(Course2_11,Day_11),classtimestart(Course1_11, StartTime_11),classtimestart(Course2_11, StartTime_11),Course1_11 \= Course2_11),Q11),write(Q11).
+tab(5),write(Q9), nl,nl,
+
+/*Question 10*/
+write('10.) Are there any scheduling conflicts of professors or locations?'), nl,nl,
+
+/* Location conflicts*/
+tab(5),write('Locations conflicts:'), nl,
+tab(5),setof((Day_10, StartTime_10, Location_10),Course1_10^Course2_10^(taughtby(Course1_10, Prof1_10),taughtby(Course2_10, Prof2_10),classroom(Course1_10, Location_10),classroom(Course2_10, Location_10),classday(Course1_10,Day_10),classday(Course2_10,Day_10),classtimestart(Course1_10, StartTime_10),classtimestart(Course2_10, StartTime_10),Prof1_10 \= Prof2_10),Q10),write(Q10), nl,nl,
+
+/* Scheduling conflicts*/
+tab(5),write('Scheduling conflicts:'), nl,
+tab(5),setof((Prof1_11, Day_11, StartTime_11),Course1_11^Course2_11^(taughtby(Course1_11, Prof1_11),taughtby(Course2_11, Prof1_11),classday(Course1_11,Day_11),classday(Course2_11,Day_11),classtimestart(Course1_11, StartTime_11),classtimestart(Course2_11, StartTime_11),Course1_11 \= Course2_11),Q11),write(Q11),nl.
+
 ?- print_solution.
